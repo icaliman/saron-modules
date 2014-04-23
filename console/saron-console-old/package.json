@@ -19,6 +19,8 @@
     "name": "John Caliman"
   },
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "d-console": "~0.1.4"
+  },
   "devDependencies": {}
 }

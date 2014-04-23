@@ -1,0 +1,7 @@
+<index:>
+  <!--{{each servers as #server}}-->
+    <!--{{if #server === selectedServer}}-->
+      <!--<view name="d-console" dash=">>> " on-new-command="newCommand()" commands="{{#server.consoleCommands}}" />-->
+    <!--{{/if}}-->
+  <!--{{/each}}-->
+  <view name="d-console" dash=">>> " on-new-command="newCommand()" commands="{{selectedServer.consoleCommands}}" />
