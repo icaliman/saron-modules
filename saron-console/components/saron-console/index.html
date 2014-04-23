@@ -1,6 +1,0 @@
-<index:>
-  {{each servers as #server}}
-    {{if #server === selectedServer}}
-      <view name="d-console" dash=">>> " on-new-command="newCommand()" commands="{{_page.consoleCommands[#server.name]}}" />
-    {{/if}}
-  {{/each}}

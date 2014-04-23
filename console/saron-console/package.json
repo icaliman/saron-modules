@@ -20,9 +20,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "d-console": "*"
+    "d-console": "~0.1.4"
   },
-  "devDependencies": {},
-  "_id": "d-console@0.0.2",
-  "_from": "d-console@~0.0.1"
+  "devDependencies": {}
 }
