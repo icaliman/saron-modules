@@ -28,7 +28,7 @@ module.exports = class STerminal2
         command = ''
       else
         command += data
-#        @term.write data
+        @term.write data
 
     @term.open document.getElementById('saron-terminal2-' + @server.get('id'))
 
