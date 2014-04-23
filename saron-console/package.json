@@ -1,0 +1,28 @@
+{
+  "name": "saron-console",
+  "description": "Saron Console plugin",
+  "version": "0.0.1",
+  "main": "index.js",
+  "keywords": [
+    "derby",
+    "component",
+    "console"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/icaliman/saron-console.git"
+  },
+  "bugs": {
+    "url": "https://github.com/icaliman/saron-console/issues"
+  },
+  "author": {
+    "name": "John Caliman"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "d-console": "*"
+  },
+  "devDependencies": {},
+  "_id": "d-console@0.0.2",
+  "_from": "d-console@~0.0.1"
+}
