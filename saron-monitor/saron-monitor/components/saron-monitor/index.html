@@ -1,0 +1,4 @@
+<index:>
+  {{each servers as #server}}
+    <view name="s-monitor" server="{{#server}}" hidden="{{#server !== selectedServer}}"/>
+  {{/each}}

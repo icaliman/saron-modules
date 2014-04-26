@@ -1,7 +1,5 @@
 var os = require('os');
 
-//TODO: use this on linux https://github.com/husanu/nodejs-cpu-usage
-
 exports.free = function(period, cb){
   if (!period && !cb) {
     return getCPUUsagePast(true);
