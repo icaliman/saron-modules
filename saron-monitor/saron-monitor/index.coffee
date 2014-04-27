@@ -58,6 +58,7 @@ exports.init = (store, primus) ->
         delete daemonsSockets[serverId]
 
     spark.on 'update', (data) ->
+#      TODO: create statistics with monitoring data
       if browsersSockets[serverId]
         browser = browsersSockets[serverId]
         browser.send 'update', data
