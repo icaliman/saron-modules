@@ -1,7 +1,7 @@
-console.log 'Saron Terminal Module'
+console.log 'Saron Monitor Module'
 
 exports.init = (store, primus) ->
-  console.log 'Saron: Init terminal'
+  console.log 'Saron: Init monitor'
 
   browsers = primus.channel 'monitor-browsers'
   daemons = primus.channel 'monitor-daemons'

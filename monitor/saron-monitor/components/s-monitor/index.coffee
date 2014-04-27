@@ -1,6 +1,5 @@
-Terminal = require 'term.js/src/term.js'
 
-module.exports = class STerminal
+module.exports = class SMonitor
   view: __dirname
 
 #  This is called on the server and in the browser
@@ -13,7 +12,8 @@ module.exports = class STerminal
     @socket = @primus.channel 'monitor-browsers'
 
     @socket.on 'update', (data) =>
-      console.log "Monitor update: ", data
+#      console.log "Monitor update: ", data
+      model.set 'info', data
 
     @socket.send 'auth', @server.get('id'), (ok) =>
       console.log "Monitor auth: ", ok
