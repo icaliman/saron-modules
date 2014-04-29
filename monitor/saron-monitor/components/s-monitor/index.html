@@ -1,6 +1,24 @@
 <index:>
-  <div hidden={{@hidden}}>
-    <view name="s-gauge" info={{info.cpu}} title="CPU"></view>
-    <view name="s-gauge" info={{info.memory}} title="Mem"></view>
-    <view name="s-line-chart" data={{cpuData}}></view>
+  <div class="monitor" hidden={{@hidden}}>
+    <div class="monitor-header">
+      <div class="monitor-tab {{selected=='cpu'?'selected':''}}" on-click="model.set('selected', 'cpu')">
+        <view name="s-gauge" info={{info.cpu}} title="CPU"></view>
+      </div>
+      <div class="monitor-tab {{selected=='memory'?'selected':''}}" on-click="model.set('selected', 'memory')">
+        <view name="s-gauge" info={{info.memory}} title="Memory" color-start="rgba(200, 82, 255, 0.75)"></view>
+      </div>
+    </div>
+
+    <div class="monitor-body">
+      {{if selected == 'cpu'}}
+        <view name="s-line-chart" data={{cpuData}} title="CPU"></view>
+      {{/}}
+      {{if selected == 'memory'}}
+        <view name="s-line-chart" data={{memoryData}} title="Memory" height="300"
+              line-color='rgba(200, 82, 255, 1)'
+              border-color='rgba(200, 82, 255, 1)'
+              fill-color='rgba(200, 82, 255, 0.15)'
+              grid-color='rgba(200, 82, 255, 0.5)'></view>
+      {{/}}
+    </div>
   </div>

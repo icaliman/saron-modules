@@ -18,11 +18,11 @@ module.exports = class SCPU
         strokeWidth: 0.035, # The rotation offset
         color: '#000000' # Fill color
       },
-      limitMax: 'false',   # If true, the pointer will not go past the end of the gauge
-      colorStart: '#6FADCF',   # Colors
-      colorStop: '#8FC0DA',    # just experiment with them
+      limitMax: 'true',   # If true, the pointer will not go past the end of the gauge
+      colorStart: model.get('colorStart') || '#6FADCF',   # Colors
+      colorStop: model.get('colorStop') || model.get('colorStart') || '#6FADCF',    # just experiment with them
       strokeColor: '#E0E0E0',   # to see which ones work best for you
-      generateGradient: true
+      generateGradient: false
     };
     gauge = new Gauge(@gaugeTarget).setOptions(opts); # create sexy gauge!
     gauge.maxValue = 100; # set max gauge value

@@ -34,5 +34,13 @@ createTerminal = () ->
     env: process.env
   #  debug: true
 
+  console.log term
+
   term.on 'data', (data) ->
-    socket.send 'terminal', data if socket
+#    console.log '---------------------------', data
+    if data.indexOf('set PATH=') == -1
+      socket.send 'terminal', data if socket
+
+  setTimeout (->
+    term.write 'set PATH=' + process.env.PATH + '\r'
+  ), 1000

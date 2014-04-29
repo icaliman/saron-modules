@@ -1,5 +1,17 @@
 <index:>
   <div class="line-chart">
-    Line Chart
-    <canvas width="600" height="400" as="chartTarget"></canvas>
+    <div class="line-chart-header">
+      <h1 class="line-chart-title">{{title}}</h1>
+    </div>
+    <div class="line-chart-meta">
+      <span class="line-chart-header-small left">% Utilization</span>
+      <span class="line-chart-header-small right">100%</span>
+    </div>
+    <div>
+      <canvas width="{{@width || 600}}" height="{{@height || 400}}" as="chartTarget"></canvas>
+    </div>
+    <div class="line-chart-meta">
+      <span class="line-chart-header-small left">60 secconds</span>
+      <span class="line-chart-header-small right">0</span>
+    </div>
   </div>

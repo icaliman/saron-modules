@@ -22,17 +22,20 @@ module.exports = class SLineChart
     @yScalarGrid = @can.height / (@rows + 1)
     @gridLeftFloat = 0
 
-    model.setNull 'data', []
+    @lineColor = model.get('lineColor') || "rgba(128, 128, 255, 1)"
+    @fillColor = model.get('fillColor') || "rgba(128, 128, 255, 0.15)"
+    @borderColor = model.get('borderColor') || @lineColor
+    @gridColor = model.get('gridColor') || "rgba(128, 128, 255, 0.6)"
+
     @redraw()
 
     model.on 'insert', 'data', () =>
-      console.log model.get 'data'
       @gridLeftFloat = (@gridLeftFloat + 1) % 10
       @redraw()
 
 
   redraw: () ->
-    data = @model.get 'data'
+    data = @model.get('data') || []
     num = data.length
 
     @clear()
@@ -42,8 +45,8 @@ module.exports = class SLineChart
     i = Math.max 0, num - @numMax - 1
     x = @can.width - @xScalar * Math.min(num, @numMax + 1)
 
-    @ctx.strokeStyle="rgba(128, 128, 255, 1)"
-    @ctx.fillStyle = "rgba(128, 128, 255, 0.1)"
+    @ctx.strokeStyle = @lineColor
+    @ctx.fillStyle = @fillColor
     @ctx.lineWidth = 1.2
     @ctx.beginPath()
     @ctx.moveTo x, @can.height
@@ -61,8 +64,8 @@ module.exports = class SLineChart
     @ctx.clearRect(0, 0, @can.width, @can.height);
 
   drawGrid: () ->
-    @ctx.strokeStyle = "rgba(128, 128, 255, 0.5)"
-    @ctx.lineWidth = 0.5
+    @ctx.strokeStyle = @gridColor
+    @ctx.lineWidth = 0.4
     @ctx.beginPath()
     for i in [1..@rows]
       y = i * @yScalarGrid
@@ -75,8 +78,8 @@ module.exports = class SLineChart
     @ctx.stroke()
 
   drawBorder: () ->
-    @ctx.strokeStyle="rgba(128, 128, 255, 1)"
-    @ctx.lineWidth = 1
+    @ctx.strokeStyle = @borderColor
+    @ctx.lineWidth = 2
     @ctx.beginPath()
     @ctx.moveTo(0, 0)
     @ctx.lineTo(@can.width, 0)

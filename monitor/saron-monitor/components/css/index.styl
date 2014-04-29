@@ -1,19 +1,29 @@
-.monitor-cpu
-  height 100px
-  width 50px
-  position relative
-  border #8F8F8F 2px solid
+.line-chart
+  width 600px
 
-.monitor-cpu-body
-  height 100%
-  width 100%
-  background #FFA2A2
-  position absolute
-  bottom 0
+.monitor
+  margin-top 10px
+
+.monitor-header
+  float: left
+
+.monitor-tab
+  cursor pointer
+
+.monitor-tab.selected
+  background #F5F6FF
+  border 1px #79A1FC solid
+  margin -1px
+  cursor default
+
+.monitor-body
+  margin-left 5px
+  padding-left 25px
+  border-left 1px #BDBDBD solid
+  float left
 
 .gauge
   width 150px
-  float left
 
 .gauge-header
   text-align center
@@ -27,3 +37,15 @@
 
   .guage-info
     margin-left 5px
+
+
+.line-chart-title
+  padding 0
+  margin-bottom 5px
+
+.line-chart-header-small
+  color grey
+.line-chart-header-small.left
+  float left
+.line-chart-header-small.right
+  float right
