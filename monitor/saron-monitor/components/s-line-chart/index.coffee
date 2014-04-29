@@ -22,9 +22,8 @@ module.exports = class SLineChart
     @yScalarGrid = @can.height / (@rows + 1)
     @gridLeftFloat = 0
 
-#    setInterval (=>
-#      model.push 'data', Math.random()
-#    ), 1000
+    model.setNull 'data', []
+    @redraw()
 
     model.on 'insert', 'data', () =>
       console.log model.get 'data'
