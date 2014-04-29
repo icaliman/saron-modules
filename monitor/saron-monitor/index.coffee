@@ -27,14 +27,14 @@ exports.init = (store, primus) ->
 
     spark.on 'update', (command) ->
       console.log 'Monitor received: ', command, serverId
-
       if daemonsSockets[serverId]
         daemon = daemonsSockets[serverId]
         daemon.send 'update', command
       else
-#        spark.send 'terminal', 'Server is not connected to the app'
+#        spark.send 'error', 'Server is not connected to the app'
 
     spark.on 'end', () ->
+      console.log ">>>>>>>>>>>>>>>> BROWSER END CONNECTION >>>>>>>>>>>>>>>>>"
       if browsersSockets[serverId]?.id is spark.id
         delete browsersSockets[serverId]
 
@@ -42,6 +42,13 @@ exports.init = (store, primus) ->
         if daemonsSockets[serverId]
           daemon = daemonsSockets[serverId]
           daemon.send 'stop'
+
+    spark.on 'reconnect', () ->
+      console.log "================--------------------=================-----------------=================="
+    spark.on 'reconnected', () ->
+      console.log "000000000000000----------------================--------------------=================-----------------=================="
+    spark.on 'open', () ->
+      console.log "+++++++++++++----------------================--------------------=================-----------------=================="
 
   daemons.on 'connection', (spark) ->
     console.log 'Terminal: New Daemon connection'
@@ -52,6 +59,10 @@ exports.init = (store, primus) ->
       console.log "Terminal: Daemon auth", conf
       serverId = conf.nodeId
       daemonsSockets[serverId] = spark
+
+      if browsersSockets[serverId]
+        spark.send 'start'
+
 
     spark.on 'end', () ->
       if daemonsSockets[serverId]?.id is spark.id
