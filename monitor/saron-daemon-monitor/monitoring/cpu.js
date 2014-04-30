@@ -46,6 +46,7 @@ function getCPUInfo(cb){
   var total = user + nice + sys + idle + irq;
 
   return {
+//    'idle': idle + nice + sys + irq,
     'idle': idle,
     'total': total
   };
