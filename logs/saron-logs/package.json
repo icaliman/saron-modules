@@ -1,0 +1,24 @@
+{
+  "name": "saron-logs",
+  "description": "Saron Logs plugin",
+  "version": "0.0.1",
+  "main": "index.js",
+  "keywords": [
+    "derby",
+    "component",
+    "console"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/icaliman/saron-console.git"
+  },
+  "bugs": {
+    "url": "https://github.com/icaliman/saron-console/issues"
+  },
+  "author": {
+    "name": "John Caliman"
+  },
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {}
+}
