@@ -6,12 +6,12 @@ module.exports = class SMonitor
   init: (model) ->
     @server = model.at 'server'
 
+    model.set 'selected', 'cpu'
+
 #  This is called only in the browser
   create: (model) ->
     @primus = window.primus
     @socket = @primus.channel 'monitor-browsers'
-
-    model.set 'selected', 'cpu'
 
     @socket.on 'update', (data) =>
 #      console.log "Monitor update: ", data
