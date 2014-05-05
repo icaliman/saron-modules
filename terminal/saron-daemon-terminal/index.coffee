@@ -8,7 +8,7 @@ if process.platform is 'win32'
   shell = 'C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe'
 #  shell = 'cmd.exe'
 else
-  shell = process.env.SHELL || 'shell'
+  shell = process.env.SHELL || 'bash'
 
 
 exports.init = (conf, primus) ->
