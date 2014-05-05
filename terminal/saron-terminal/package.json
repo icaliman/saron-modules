@@ -19,6 +19,8 @@
     "name": "John Caliman"
   },
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "term.js": "0.0.4"
+  },
   "devDependencies": {}
 }

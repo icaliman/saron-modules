@@ -5,7 +5,8 @@ term = null
 socket = null
 
 if process.platform is 'win32'
-  shell = 'C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe'
+#  shell = 'C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe'
+  shell = 'powershell.exe'
 #  shell = 'cmd.exe'
 else
   shell = process.env.SHELL || 'bash'
@@ -21,7 +22,7 @@ exports.init = (conf, primus) ->
   socket.send 'auth',
     nodeId: conf.nodeId
 
-  socket.on 'command', (data) ->
+  socket.on 'write', (data) ->
     createTerminal(conf) unless term
     term.write data
 
@@ -30,23 +31,22 @@ exports.init = (conf, primus) ->
     term.destroy() if term
     createTerminal(conf)
 
-
-
-#console.log('--=========----------------=========',process.env.HOME)
+  socket.on 'resize', (cols, rows) ->
+    term.resize cols, rows if term
 
 createTerminal = (conf) ->
   term = pty.fork shell, [],
     name: 'xterm-256color'
     cols: 80
     rows: 25
-#    cwd: process.env.HOME
+    cwd: process.env.PWD || process.env.HOME
     env: process.env
   #  debug: true
 
   term.on 'data', (data) ->
 #    console.log '---------------------------', data
 #    if data.indexOf('set PATH=') == -1
-    socket.send 'terminal', data if socket
+    socket.send 'term-data', data if socket
 
   term.on 'exit', () ->
     console.log "Terminal exited!!!!!!!!!!!!!!!!!!!"
