@@ -7,26 +7,27 @@ exports.init = (store, primus) ->
   daemons = primus.channel 'terminal-daemons'
 
   daemonsSockets = {}
-  browsersSockets = {}
 
   browsers.on 'connection', (spark) ->
 #    console.log 'Terminal: New Browser connection'
     serverId = null
 
-    spark.on 'auth', (sId, cb) ->
+    spark.on 'auth', (sId) ->
       serverId = sId
-      browsersSockets[serverId] = spark
+      spark.join serverId
+
       if daemonsSockets[serverId]
         daemon = daemonsSockets[serverId]
-        daemon.send 'start'
-      cb && cb daemonsSockets[serverId]==null
+        daemon.send 'write', '\r'
+#        daemon.send 'start'
+
 
     spark.on 'data', (data) ->
       unless data.data[0] in ['auth']
         if daemonsSockets[serverId]
           daemon = daemonsSockets[serverId]
           daemon.write data
-        else
+#        else
 #          spark.send 'terminal', 'Server is not connected to the app'
 
 
@@ -38,12 +39,14 @@ exports.init = (store, primus) ->
 #      console.log "Terminal: Daemon auth", conf
       serverId = conf.nodeId
       daemonsSockets[serverId] = spark
+#      spark.join serverId
 
     spark.on 'end', () ->
       if daemonsSockets[serverId]?.id is spark.id
         delete daemonsSockets[serverId]
 
     spark.on 'term-data', (data) ->
-      if browsersSockets[serverId]
-        browser = browsersSockets[serverId]
-        browser.send 'term-data', data
+#      if browsersSockets[serverId]
+#        browser = browsersSockets[serverId]
+#        browser.send 'term-data', data
+      browsers.room(serverId).send 'term-data', data

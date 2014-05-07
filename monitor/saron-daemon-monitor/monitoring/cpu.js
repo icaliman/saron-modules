@@ -120,20 +120,20 @@ function getCPUsUsage(cb, free, period){
   }, period );
 }
 
-var statsStart = getCPUInfo();
+var statsPast = getCPUInfo();
 function getCPUUsagePast(free) {
-  var startIdle = statsStart.idle;
-  var startTotal = statsStart.total;
+  var startIdle = statsPast.idle;
+  var startTotal = statsPast.total;
 
-  var statsEnd = getCPUInfo();
-  var endIdle = statsEnd.idle;
-  var endTotal = statsEnd.total;
+  var statsNow = getCPUInfo();
+  var endIdle = statsNow.idle;
+  var endTotal = statsNow.total;
 
   var idle 	= endIdle - startIdle;
   var total 	= endTotal - startTotal;
   var perc	= idle / total;
 
-  statsStart = statsEnd;
+  statsPast = statsNow;
 
   if (free)
     return perc;

@@ -19,5 +19,4 @@ module.exports = class SMonitor
       model.push 'cpuData', data.cpu
       model.push 'memoryData', data.memory
 
-    @socket.send 'auth', @server.get('id'), (ok) =>
-      console.log "Monitor auth: ", ok
+    @socket.send 'auth', @server.get('id')

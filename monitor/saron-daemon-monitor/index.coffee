@@ -17,7 +17,7 @@ exports.init = (conf, primus) ->
   socket.on 'start', () ->
     return if started
     started = true
-    interval = monitor.usageInterval 2000, sendData
+    interval = monitor.usageInterval 1000, sendData
 
   socket.on 'stop', () ->
     clearInterval(interval) if interval
