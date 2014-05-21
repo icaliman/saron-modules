@@ -11,7 +11,8 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "coffee-script": "~1.7.1"
+    "coffee-script": "~1.7.1",
+    "diskspace": "~0.1.6"
   },
   "optionalDependencies": {},
   "devDependencies": {},
