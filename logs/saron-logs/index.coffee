@@ -1,36 +1,37 @@
-console.log 'Saron Console Module'
+console.log 'Saron Terminal Module'
 
 exports.init = (store, primus) ->
-  console.log 'Saron: Init console'
+  console.log 'Saron: Init terminal'
 
-  browsers = primus.channel 'console-browsers'
-  daemons = primus.channel 'console-daemons'
+  browsers = primus.channel 'logs-browsers'
+  daemons = primus.channel 'logs-daemons'
 
   daemonsSockets = {}
 
   browsers.on 'connection', (spark) ->
-    console.log 'Console: New Browser connection'
+#    console.log 'Terminal: New Browser connection'
+    serverId = null
 
-    console.log "Spark ID: ", spark.id
+    spark.on 'auth', (sId) ->
+      serverId = sId
+      spark.join serverId
 
-    spark.on 'command', (serverId, command, cb) ->
-      console.log 'Console received: ', command, serverId
-      if daemonsSockets[serverId]
-        daemon = daemonsSockets[serverId]
-        daemon.send 'command', command, cb
-      else
-        cb "Server is not connected to the app"
+#      if daemonsSockets[serverId]
+#        daemon = daemonsSockets[serverId]
 
   daemons.on 'connection', (spark) ->
-    console.log 'Console: New Daemon connection'
-
+#    console.log 'Terminal: New Daemon connection'
     serverId = null
 
     spark.on 'auth', (conf) ->
-      console.log "Console: Daemon auth", conf
+#      console.log "Terminal: Daemon auth", conf
       serverId = conf.nodeId
       daemonsSockets[serverId] = spark
+    #      spark.join serverId
 
     spark.on 'end', () ->
       if daemonsSockets[serverId]?.id is spark.id
         delete daemonsSockets[serverId]
+
+    spark.on 'new_log', (data) ->
+      browsers.room(serverId).send 'new_log', data

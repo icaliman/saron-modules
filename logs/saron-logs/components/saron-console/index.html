@@ -1,9 +1,0 @@
-<index:>
-  {{each servers as #server}}
-    <!--{{if #server === selectedServer}}-->
-      <!--<view name="s-console" dash=">>> " on-new-command="newCommand()" commands="{{#server.consoleCommands}}" />-->
-    <view name="s-console" server={{#server}} hidden="{{#server !== selectedServer}}"/>
-    <!--{{/if}}-->
-  {{/each}}
-  <!--{{'asd '+pwd}}-->
-  <!--<view name="s-console" pwd="{{pwd}}" on-new-command="newCommand()" commands="{{selectedServer.consoleCommands}}" />-->

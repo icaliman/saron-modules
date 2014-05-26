@@ -2,6 +2,7 @@
 fs = require 'fs'
 net = require 'net'
 events = require 'events'
+EOL = null
 
 ###
 LogStream is a group of local files paths.  It watches each file for
@@ -10,7 +11,7 @@ changes, extracts new log messages, and emits 'new_log' events.
 ###
 class LogStream extends events.EventEmitter
   constructor: (@name, @paths) ->
-    @_log = console.log
+    @_log = console
 
   watch: ->
     @_log.info "Starting log stream: '#{@name}'"
@@ -27,10 +28,12 @@ class LogStream extends events.EventEmitter
     watcher = fs.watch path, (event, filename) =>
       if event is 'rename'
         # File has been rotated, start new watcher
+        @_log.info "File has been rotated: '#{path}'"
         watcher.close()
         @_watchFile path
       if event is 'change'
         # Capture file offset information for change event
+#        console.log "File was changed: '#{path}'"
         fs.stat path, (err, stat) =>
           @_readNewLogs path, stat.size, currSize
           currSize = stat.size
@@ -44,7 +47,9 @@ class LogStream extends events.EventEmitter
       end: curr
     # Emit 'new_log' event for every captured log line
     rstream.on 'data', (data) =>
-      lines = data.split "\n"
+      unless EOL
+        EOL = if data.indexOf('\r\n') < 0 then '\n' else '\r\n'
+      lines = data.split EOL
       @emit 'new_log', line for line in lines when line
 
 exports.LogStream = LogStream
