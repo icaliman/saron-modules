@@ -4,4 +4,5 @@ module.exports = (app, options) ->
   app.component require('./s-bar')
   app.component require('./s-gauge')
   app.component require('./s-line-chart')
+  app.component require('./s-disk')
   app.loadStyles __dirname + '/css/index'

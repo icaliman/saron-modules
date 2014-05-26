@@ -7,6 +7,9 @@
       <div class="monitor-tab {{selected=='memory'?'selected':''}}" on-click="model.set('selected', 'memory')">
         <view name="s-gauge" info={{info.memory}} title="Memory" color-start="rgba(200, 82, 255, 0.75)"></view>
       </div>
+      <div class="monitor-tab {{selected=='disk'?'selected':''}}" on-click="model.set('selected', 'disk')">
+        <view name="s-gauge" info={{info.disk}} title="Disk" color-start="rgba(200, 82, 255, 0.75)"></view>
+      </div>
     </div>
 
     <div class="monitor-body">
@@ -19,6 +22,9 @@
               border-color='rgba(200, 82, 255, 1)'
               fill-color='rgba(200, 82, 255, 0.15)'
               grid-color='rgba(200, 82, 255, 0.5)'></view>
+      {{/}}
+      {{if selected == 'disk'}}
+        <view name="s-disk" data={{diskData}} title="CPU"></view>
       {{/}}
     </div>
   </div>

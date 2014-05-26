@@ -3,13 +3,14 @@
 
 .monitor
   margin-top 10px
+  width 100%
+  height 100%
 
 .monitor-header
-  float: left
-
+  float left
+  width 150px
 .monitor-tab
   cursor pointer
-
 .monitor-tab.selected
   background #F5F6FF
   border 1px #79A1FC solid
@@ -17,6 +18,7 @@
   cursor default
 
 .monitor-body
+  width calc(100% - 155px)
   margin-left 5px
   padding-left 25px
   border-left 1px #BDBDBD solid
@@ -49,3 +51,40 @@
   float left
 .line-chart-header-small.right
   float right
+
+.monitor-disk
+  max-width 800px
+.monitor-disk-drive
+  height 54px
+  width 250px
+  background #f7f7f7
+  margin 0 8px 8px 0
+  border 1px solid #dedede
+  float left
+  &:hover
+    background #d1e8ff
+  .drive-icon, .drive-info
+    height 100%
+    float left
+  .drive-icon
+    width 60px
+    text-align center
+    font-size 30px
+    line-height 2
+    color #686868
+  .drive-info
+    /*width 100%*/
+    width calc(100% - 60px)
+  .drive-title
+    height 35%
+    line-height 1.8
+  .drive-bar
+    height calc(30% - 2px)
+    width calc(100% - 2px)
+    border 1px solid #bcbcbc
+    background #e6e6e6
+  .bar-b
+    height 100%
+    background #28a1da
+  .drive-label
+    height 35%

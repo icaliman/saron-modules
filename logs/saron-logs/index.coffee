@@ -33,5 +33,5 @@ exports.init = (store, primus) ->
       if daemonsSockets[serverId]?.id is spark.id
         delete daemonsSockets[serverId]
 
-    spark.on 'new_log', (data) ->
-      browsers.room(serverId).send 'new_log', data
+    spark.on 'new_log', (stream, log) ->
+      browsers.room(serverId).send 'new_log', stream, log
