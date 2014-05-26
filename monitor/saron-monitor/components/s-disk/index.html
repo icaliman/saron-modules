@@ -1,0 +1,19 @@
+<index:>
+  <div class="monitor-disk">
+    {{each data as #drive}}
+      <view name="s-disk:drive" drive="{{#drive}}"/>
+    {{/}}
+  </div>
+
+
+<drive:>
+  <div class="monitor-disk-drive">
+    <div class="drive-icon"><i class="glyphicon glyphicon-hdd"></i></div>
+    <div class="drive-info">
+      <div class="drive-title">Local Disk ({{@drive.name}})</div>
+      <div class="drive-bar">
+        <div class="bar-b" style="width: {{@drive.used}}%;"></div>
+      </div>
+      <div class="drive-label">{{@drive.free}} GB free of {{@drive.total}} GB</div>
+    </div>
+  </div>
