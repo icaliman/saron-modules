@@ -1,5 +1,5 @@
 <index:>
-  <div class="monitor" hidden={{@hidden}}>
+  <div class="monitor" style="{{if @hidden}}display: none;{{/}}">
     <div class="monitor-header">
       <div class="monitor-tab {{selected=='cpu'?'selected':''}}" on-click="model.set('selected', 'cpu')">
         <view name="s-gauge" info={{info.cpu}} title="CPU"></view>

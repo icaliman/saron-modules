@@ -1,6 +1,7 @@
 
 module.exports = class SMonitor
   view: __dirname
+  name: 's-monitor'
 
 #  This is called on the server and in the browser
   init: (model) ->
@@ -19,6 +20,8 @@ module.exports = class SMonitor
       model.push 'cpuData', data.cpu
       model.push 'memoryData', data.memory
 #      model.set 'diskData', data.disk
+
+      console.log ">>>>>>>>>>>>>>>>> Monitor update >>>>>>>>>>>>>>>>>>>>>>"
 
       for drive, i in data.disk
         model.set "diskData.#{i}.name", data.disk[i].name

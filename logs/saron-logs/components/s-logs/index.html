@@ -1,6 +1,17 @@
 <index:>
   <div class="logs-target" hidden={{@hidden}}>
-    {{each logs as #log}}
-      <div>{{#log}}</div>
-    {{/}}
+    <div class="log-filter">
+      <label for="log-filter">filter</label>
+      <input id="log-filter" value="{{filter}}"/>
+    </div>
+    <div class="log-list">
+      {{each logs as #log}}
+        {{if #log.visible}}
+          <p>
+            <span class="stream {{color(#log.stream)}}">{{#log.stream}}</span>&nbsp;
+            <span class="message">{{unescaped #log.show_message}}</span>
+          </p>
+        {{/}}
+      {{/}}
+    </div>
   </div>

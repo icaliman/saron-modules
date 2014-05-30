@@ -1,6 +1,7 @@
 
 module.exports = class SCPU
   view: __dirname
+  name: 's-gauge'
 
 #  This is called on the server and in the browser
 #  init: (model) ->
@@ -27,14 +28,7 @@ module.exports = class SCPU
     gauge = new Gauge(@gaugeTarget).setOptions(opts); # create sexy gauge!
     gauge.maxValue = 100; # set max gauge value
 #    gauge.animationSpeed = 128; # set animation speed (32 is default value)
+    gauge.set value
 
     model.on 'all', 'info**', (path, method, value) ->
       gauge.set(value*100); # set actual value
-
-#    console.log value
-
-#    console.log @gauseTarget
-#    for a in @gauseTarget
-#      console.log '------', a
-#    for a of @gauseTarget
-#      console.log '++++++', a

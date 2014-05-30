@@ -1,10 +1,13 @@
 
 module.exports = class SLineChart
   view: __dirname
+  name: 's-line-chart'
 
 #  This is called on the server and in the browser
-#  init: (model) ->
+  init: (model) ->
 #    @server = model.at 'server'
+
+    model.set('borderColor', "rgba(128, 128, 255, 1)")
 
 #  This is called only in the browser
   create: (model) ->
@@ -27,6 +30,8 @@ module.exports = class SLineChart
     @borderColor = model.get('borderColor') || @lineColor
     @gridColor = model.get('gridColor') || "rgba(128, 128, 255, 0.6)"
 
+    model.set('borderColor', @borderColor)
+
     @redraw()
 
     model.on 'insert', 'data', () =>
@@ -39,7 +44,7 @@ module.exports = class SLineChart
     num = data.length
 
     @clear()
-    @drawBorder()
+#    @drawBorder()
     @drawGrid()
 
     i = Math.max 0, num - @numMax - 1

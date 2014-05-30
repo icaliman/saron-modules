@@ -30,11 +30,12 @@ exports.init = (store, primus) ->
 #        spark.send 'error', 'Server is not connected to the app'
 
     spark.on 'end', () ->
-      console.log ">>>>>>>>>>>>>>>> MONITOR: BROWSER END CONNECTION >>>>>>>>>>>>>>>>>"
+      console.log ">>>>>>>>>>>>>>>> MONITOR: BROWSER SOCKET END CONNECTION >>>>>>>>>>>>>>>>>"
 #      TODO: stop daemon monitor from sending data only if needed
-      if daemonsSockets[serverId]
-        daemon = daemonsSockets[serverId]
-        daemon.send 'stop'
+#      if daemonsSockets[serverId]
+#        daemon = daemonsSockets[serverId]
+#        console.log ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> STOP >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+#        daemon.send 'stop'
 
   daemons.on 'connection', (spark) ->
     console.log 'Terminal: New Daemon connection'

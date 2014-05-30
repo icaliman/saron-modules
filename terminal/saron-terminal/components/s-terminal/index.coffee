@@ -2,10 +2,12 @@ Terminal = require 'term.js/src/term.js'
 
 module.exports = class STerminal
   view: __dirname
+  name: 's-terminal'
 
 #  This is called on the server and in the browser
   init: (model) ->
     @server = model.at 'server'
+    model.set 'terminalStyle', 'white'
 
 #  This is called only in the browser
   create: (model, dom) ->
@@ -15,18 +17,18 @@ module.exports = class STerminal
     @term = new Terminal
       cols: 80
       rows: 25
-      useStyle: true
+      useStyle: false
       screenKeys: true
 #      convertEol: true
 
     @term.on 'data', (data) =>
-      console.log "Term send: ", data
+#      console.log "Term send: ", data
       @socket.send 'write', data
 
-    @term.open document.getElementById('saron-terminal-' + @server.get('id'))
+    @term.open @terminalTarget #document.getElementById('saron-terminal-' + @server.get('id'))
 
     @socket.on 'term-data', (data) =>
-      console.log '-=-=-=-=-=', data
+#      console.log '-=-=-=-=-=', data
       @term.write(data)
 
     @socket.send 'auth', @server.get('id')
@@ -37,10 +39,10 @@ module.exports = class STerminal
 #    @socket.on 'end', ->
 #      term.destroy()
 
-    @resize()
     @model.root.on 'change', '_page.contentBox', => @resize()
 
   resize: () ->
+#    return unless @model.root.get '_page.contentBox'
     console.log 'resize'
     size = @calculateSize()
     @term.resize size.cols, size.rows
@@ -48,11 +50,14 @@ module.exports = class STerminal
 
   calculateSize: () ->
 #    TODO: calculate char width and height
+    box = @model.root.get '_page.contentBox'
     w = 7
     h = 14
-    box = @model.root.get '_page.contentBox'
     size =
       cols: Math.floor (box.width - 10) / w
       rows: Math.floor (box.height - 10) / h
       width: box.width
       height: box.height
+
+  setTerminalStyle: (color) ->
+    @model.set 'terminalStyle', color

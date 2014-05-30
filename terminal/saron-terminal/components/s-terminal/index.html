@@ -1,2 +1,9 @@
 <index:>
-  <div class="terminal-target" id="saron-terminal-{{@server.id}}" hidden={{@hidden}}></div>
+  <div as="terminalTarget" class="terminal-target {{if terminalStyle==='white'}}white-theme{{/}}" id="saron-terminal-{{@server.id}}" hidden={{@hidden}}>
+    <div class="terminal-style">
+      <div class="btn-group btn-group-xs">
+        <button type="button" class="btn btn-default" disabled="{{terminalStyle==='black'}}" on-click="setTerminalStyle('black')">Black</button>
+        <button type="button" class="btn btn-default" disabled="{{terminalStyle==='white'}}" on-click="setTerminalStyle('white')">White</button>
+      </div>
+    </div>
+  </div>

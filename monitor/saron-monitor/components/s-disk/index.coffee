@@ -1,6 +1,7 @@
 
 module.exports = class HardDrive
   view: __dirname
+  name: 's-disk'
 
 #  This is called on the server and in the browser
 #  init: (model) ->

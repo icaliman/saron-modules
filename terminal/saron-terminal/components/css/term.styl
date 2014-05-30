@@ -2,10 +2,11 @@
   width 100%
   height 100%
   overflow hidden
+  position relative
 
 .terminal
   float left
-  border #000000 solid 5px
+  padding 5px
   font-family "DejaVu Sans Mono", "Liberation Mono", monospace
   font-size 11px
   color #f0f0f0
@@ -13,6 +14,26 @@
   width calc(100% - 0px)
   height calc(100% - 0px)
 
-.terminal-cursor 
+.terminal-cursor
   color #000000
   background #f0f0f0
+
+.white-theme
+  .terminal
+    color black !important
+    background #fff !important
+    padding 5px
+
+  .terminal-cursor
+    color black
+    background black
+
+.terminal-style
+  position absolute
+  right 5px
+  top 5px
+  display none
+
+.mouse-over
+  .terminal-style
+    display block
