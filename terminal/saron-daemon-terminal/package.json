@@ -11,7 +11,8 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "coffee-script": "~1.7.1"
+    "coffee-script": "~1.7.1",
+    "peters-pty.js": "~0.2.3"
   },
   "optionalDependencies": {},
   "devDependencies": {},
