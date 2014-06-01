@@ -28,8 +28,6 @@ module.exports = class SMonitor
         model.set "diskData.#{i}.free", data.disk[i].free
         model.set "diskData.#{i}.used", data.disk[i].used
 
-      console.log "--", data
-
 #      Total disk usage calculation
       diskTotal = 0
       diskFree = 0

@@ -35,16 +35,11 @@ module.exports = class STerminal
     @socket.send 'auth', @server.get('id')
 
     @term.write('\x1b[31mConnecting to ' + @server.get('name') + '...\x1b[m');
-#      else @term.write('\x1b[31mServer ' + @server.get('name') + ' is unavailable!\x1b[m');
-
-#    @socket.on 'end', ->
-#      term.destroy()
 
     @model.root.on 'change', '_page.contentBox', => @resize()
 
   resize: () ->
 #    return unless @model.root.get '_page.contentBox'
-    console.log 'resize'
     size = @calculateSize()
     @term.resize size.cols, size.rows
     @socket.send 'resize', size.cols, size.rows

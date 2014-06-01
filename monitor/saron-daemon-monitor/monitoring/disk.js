@@ -1,5 +1,5 @@
 var diskspace = require('diskspace');
-var drives = require('../../../config/daemon.conf').monitoredDrives;
+var drives = require('../../../config/daemon').monitoredDrives;
 
 if (!drives) {
   drives = require('os').platform() == 'win32' ? ['C'] : ['/'];

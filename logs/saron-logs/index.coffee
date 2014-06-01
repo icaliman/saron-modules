@@ -10,10 +10,10 @@ exports.init = (store, primus) ->
 
   browsers.on 'connection', (spark) ->
 #    console.log 'Terminal: New Browser connection'
-    serverId = null
+#    serverId = null
 
-    spark.on 'auth', (sId) ->
-      serverId = sId
+    spark.on 'auth', (serverId) ->
+#      serverId = sId
       spark.join serverId
 
 #      if daemonsSockets[serverId]

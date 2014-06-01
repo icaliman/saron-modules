@@ -42,7 +42,7 @@ class SLogs
 
   renderLog: (log) ->
     if @filter
-      return log.replace @filter, '<span class="highlight">$1</span>'
+      return log.replace @filter, '<span class="h">$1</span>'
     return log
 
   filterLog: (log) ->
