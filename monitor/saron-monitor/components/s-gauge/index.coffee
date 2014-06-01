@@ -9,7 +9,7 @@ module.exports = class SCPU
 
 #  This is called only in the browser
   create: (model) ->
-    value = model.get('info')*100 || 0
+
     opts = {
       lines: 12, # The number of lines to draw
       angle: 0.15, # The length of each line
@@ -25,10 +25,16 @@ module.exports = class SCPU
       strokeColor: '#E0E0E0',   # to see which ones work best for you
       generateGradient: false
     };
+
     gauge = new Gauge(@gaugeTarget).setOptions(opts); # create sexy gauge!
     gauge.maxValue = 100; # set max gauge value
-#    gauge.animationSpeed = 128; # set animation speed (32 is default value)
-    gauge.set value
 
-    model.on 'all', 'info**', (path, method, value) ->
-      gauge.set(value*100); # set actual value
+    setTimeout (=>
+      gauge = new Gauge(@gaugeTarget).setOptions(opts); # create sexy gauge!
+      gauge.maxValue = 100; # set max gauge value
+      gauge.set(Math.floor(model.get('info')*100) || 0)
+
+      model.on 'change', 'info', (value) =>
+        gauge.set(Math.floor(value*100) || 0); # set actual value
+
+    ), 2000

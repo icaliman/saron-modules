@@ -1,4 +1,5 @@
 Terminal = require 'term.js/src/term.js'
+utils = require 'saron-utils'
 
 module.exports = class STerminal
   view: __dirname
@@ -11,7 +12,7 @@ module.exports = class STerminal
 
 #  This is called only in the browser
   create: (model, dom) ->
-    @primus = window.primus
+    @primus = utils.getPrimus()
     @socket = @primus.channel 'terminal-browsers'
 
     @term = new Terminal
@@ -22,14 +23,14 @@ module.exports = class STerminal
 #      convertEol: true
 
     @term.on 'data', (data) =>
-#      console.log "Term send: ", data
       @socket.send 'write', data
 
-    @term.open @terminalTarget #document.getElementById('saron-terminal-' + @server.get('id'))
+    @term.open @terminalTarget
 
     @socket.on 'term-data', (data) =>
-#      console.log '-=-=-=-=-=', data
       @term.write(data)
+
+    @socket.on 'get-size', => @resize()
 
     @socket.send 'auth', @server.get('id')
 

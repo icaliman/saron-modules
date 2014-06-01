@@ -1,3 +1,4 @@
+utils = require 'saron-utils'
 
 class ColorManager
   max: 20
@@ -15,14 +16,15 @@ class SLogs
 #  This is called on the server and in the browser
   init: (model) ->
     @server = model.at 'server'
+    model.setNull "logs", []
 
 #  This is called only in the browser
   create: (model, dom) ->
-    @primus = window.primus
+    @primus = utils.getPrimus()
     @socket = @primus.channel 'logs-browsers'
 
     @socket.on 'new_log', (stream, log) =>
-      model.push "logs",
+      model.insert "logs", 0,
         stream: stream
         message: log
         show_message: @renderLog(log)

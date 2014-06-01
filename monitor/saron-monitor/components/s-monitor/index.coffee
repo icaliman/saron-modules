@@ -1,3 +1,4 @@
+utils = require 'saron-utils'
 
 module.exports = class SMonitor
   view: __dirname
@@ -11,7 +12,7 @@ module.exports = class SMonitor
 
 #  This is called only in the browser
   create: (model) ->
-    @primus = window.primus
+    @primus = utils.getPrimus()
     @socket = @primus.channel 'monitor-browsers'
 
     model.set 'diskData', []
@@ -21,15 +22,15 @@ module.exports = class SMonitor
       model.push 'memoryData', data.memory
 #      model.set 'diskData', data.disk
 
-      console.log ">>>>>>>>>>>>>>>>> Monitor update >>>>>>>>>>>>>>>>>>>>>>"
-
       for drive, i in data.disk
         model.set "diskData.#{i}.name", data.disk[i].name
         model.set "diskData.#{i}.total", data.disk[i].total
         model.set "diskData.#{i}.free", data.disk[i].free
         model.set "diskData.#{i}.used", data.disk[i].used
 
-      #      Total disk usage calculation
+      console.log "--", data
+
+#      Total disk usage calculation
       diskTotal = 0
       diskFree = 0
       for drive in data.disk
@@ -37,5 +38,9 @@ module.exports = class SMonitor
         diskFree += drive.free
       data.disk = (1 - diskFree / diskTotal)
       model.set 'info', data
+
+#      TODO: place this in another place?
+      unless @server.get 'connected'
+        @server.set 'connected', true
 
     @socket.send 'auth', @server.get('id')

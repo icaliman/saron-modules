@@ -27,8 +27,6 @@ exports.init = (store, primus) ->
         if daemonsSockets[serverId]
           daemon = daemonsSockets[serverId]
           daemon.write data
-#        else
-#          spark.send 'terminal', 'Server is not connected to the app'
 
 
   daemons.on 'connection', (spark) ->
@@ -40,6 +38,9 @@ exports.init = (store, primus) ->
       serverId = conf.nodeId
       daemonsSockets[serverId] = spark
 #      spark.join serverId
+
+      browsers.room(serverId).send 'get-size'
+
 
     spark.on 'end', () ->
       if daemonsSockets[serverId]?.id is spark.id
