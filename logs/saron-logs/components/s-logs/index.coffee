@@ -33,6 +33,7 @@ class SLogs
     @socket.send 'auth', @server.get('id')
 
     model.on 'change', 'filter', (filter) =>
+      filter = filter.replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1")
       @filter = if filter then new RegExp "(#{filter})", 'ig' else null
       logs = model.get "logs"
       for log, i in logs
