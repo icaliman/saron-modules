@@ -1,6 +1,9 @@
 var diskspace = require('diskspace');
-var drives = require('../../../config/daemon').monitoredDrives;
+var drives;
 
+if (require('./index').conf) {
+  drives = require('./index').conf.monitoredDrives;
+}
 if (!drives) {
   drives = require('os').platform() == 'win32' ? ['C'] : ['/'];
 }
@@ -12,7 +15,7 @@ exports.usage = function(callback){
 };
 
 function DiskUsage(cb) {
-  this.drives = drives.slice();
+  this.drives = drives.slice(); // slice() makes a copy of array
 
   var usage = [];
 

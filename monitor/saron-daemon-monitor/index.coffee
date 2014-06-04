@@ -6,6 +6,8 @@ interval = false
 exports.init = (conf, primus) ->
   console.log "Init monitor"
 
+  monitor.init conf
+
   socket = primus.channel 'monitor-daemons'
 
   socket.send 'auth',
