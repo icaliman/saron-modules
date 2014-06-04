@@ -50,8 +50,8 @@ module.exports = class STerminal
     w = 7
     h = 14
     size =
-      cols: Math.floor (box.width - 10) / w
-      rows: Math.floor (box.height - 10) / h
+      cols: Math.floor((box.width - 12) / w)
+      rows: Math.floor((box.height - 10) / h)
       width: box.width
       height: box.height
 
