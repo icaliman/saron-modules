@@ -18,8 +18,8 @@ exports.init = (store, primus) ->
 
       if daemonsSockets[serverId]
         daemon = daemonsSockets[serverId]
-        daemon.send 'write', '\r'
-#        daemon.send 'start'
+        daemon.send 'start'
+#        daemon.send 'write', '\r'
 
 
     spark.on 'data', (data) ->
@@ -39,8 +39,9 @@ exports.init = (store, primus) ->
       daemonsSockets[serverId] = spark
 #      spark.join serverId
 
-      browsers.room(serverId).send 'get-size'
-
+      unless browsers.isRoomEmpty(serverId)
+        spark.send 'start'
+        browsers.room(serverId).send 'get-size'
 
     spark.on 'end', () ->
       if daemonsSockets[serverId]?.id is spark.id

@@ -3,6 +3,7 @@ pty = require('peters-pty.js')
 shell = null
 term = null
 socket = null
+lastOutput = null # send this if terminal is opened in multiple tabs
 
 if process.platform is 'win32'
 #  shell = 'C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe'
@@ -17,8 +18,6 @@ exports.init = (conf, primus) ->
 
   socket = primus.channel 'terminal-daemons'
 
-  createTerminal(conf)
-
   socket.send 'auth',
     nodeId: conf.nodeId
 
@@ -27,9 +26,12 @@ exports.init = (conf, primus) ->
     term.write data
 
   socket.on 'start', () ->
-    console.log 'start: '
-    term.destroy() if term
-    createTerminal(conf)
+    unless term
+      createTerminal(conf)
+    else
+      socket.send 'term-data', lastOutput
+#    term.destroy() if term
+#    createTerminal(conf)
 
   socket.on 'resize', (cols, rows) ->
     term.resize cols, rows if term
@@ -44,13 +46,10 @@ createTerminal = (conf) ->
   #  debug: true
 
   term.on 'data', (data) ->
-#    console.log '---------------------------', data
-#    if data.indexOf('set PATH=') == -1
     socket.send 'term-data', data if socket
+    lastOutput = data
 
   term.on 'exit', () ->
     console.log "Terminal exited!!!!!!!!!!!!!!!!!!!"
-
-#  setTimeout (->
-#    term.write 'set PATH=' + process.env.PATH + '\r'
-#  ), 1000
+    term = null
+    lastOutput = null
