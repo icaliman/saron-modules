@@ -14,12 +14,12 @@ class SaronMonitor
 
     daemonsSockets = {}
 
-    browsers.on 'connection', (spark) ->
+    browsers.on 'connection', (spark) =>
       console.log 'Monitor: New Browser connection'
 
       serverID = null
 
-      spark.on 'auth', (sId) ->
+      spark.on 'auth', (sId) =>
         serverID = sId
         spark.join serverID
 
@@ -27,10 +27,23 @@ class SaronMonitor
           daemon = daemonsSockets[serverID]
           daemon.send 'start'
 
-      spark.on 'alerts-changed', () ->
-        @initDaemonAlerts serverID #TODO: trebuie optimizat
+      spark.on 'cpu-alerts-changed', (cpu) =>
+        if cpu.enabled
+          @saronAlerts.startPeriodOverflowTest('cpu', serverID, cpu.value/100, cpu.period)
+        else
+          @saronAlerts.disablePeriodOverflowTest('cpu', serverID)
+      spark.on 'ram-alerts-changed', (ram) =>
+        if ram.enabled
+          @saronAlerts.startPeriodOverflowTest('ram', serverID, ram.value/100, ram.period)
+        else
+          @saronAlerts.disablePeriodOverflowTest('ram', serverID)
+      spark.on 'disk-alerts-changed', (disk) =>
+        if disk.enabled
+          @saronAlerts.startOverflowTest('disk', {id: serverID, dn: disk.name}, disk.value)
+        else
+          @saronAlerts.disableOverflowTest('disk', {id: serverID, dn: disk.name})
 
-      spark.on 'end', () ->
+      spark.on 'end', () =>
         console.log ">>>>>>>>>>>>>>>> MONITOR: BROWSER SOCKET END CONNECTION >>>>>>>>>>>>>>>>>"
   #      TODO: stop daemon monitor from sending data only if needed
   #      if daemonsSockets[serverID]
@@ -71,7 +84,7 @@ class SaronMonitor
     model = @store.createModel({fetchOnly: true})
     server = model.at "servers.#{serverID}"
     server.fetch (err) =>
-      return if err
+      return console.log(err) if err
       cpu = server.get 'alerts.cpu'
       ram = server.get 'alerts.ram'
       disk = server.get 'alerts.disk'
@@ -79,12 +92,16 @@ class SaronMonitor
       unless cpu
         server.set 'alerts.cpu', {value: 95, period: 3600}
       else if cpu.enabled
-        @saronAlerts.startPeriodOverflowTest('cpu', serverID, cpu.value, cpu.period)
+        @saronAlerts.startPeriodOverflowTest('cpu', serverID, cpu.value/100, cpu.period)
+      else
+        @saronAlerts.disablePeriodOverflowTest('cpu', serverID)
 
       unless ram
         server.set 'alerts.ram', {value: 95, period: 3600}
       else if ram.enabled
-        @saronAlerts.startPeriodOverflowTest('ram', serverID, ram.value, ram.period) # trebuie preluat din BD
+        @saronAlerts.startPeriodOverflowTest('ram', serverID, ram.value/100, ram.period) # trebuie preluat din BD
+      else
+        @saronAlerts.disablePeriodOverflowTest('ram', serverID)
 
       disks = if conf then conf.disks else Object.keys(disk || {})
       for diskName in disks
@@ -92,6 +109,8 @@ class SaronMonitor
           server.set "alerts.disk.#{diskName}", {value: 90}
         else if disk[diskName].enabled
           @saronAlerts.startOverflowTest('disk', {id: serverID, dn: diskName}, disk[diskName].value)
+        else
+          @saronAlerts.disableOverflowTest('disk', {id: serverID, dn: diskName})
 
   initAlerts: ->
     @saronAlerts.on 'period-overflow-cpu', (serverID, maxVal, val, period) =>

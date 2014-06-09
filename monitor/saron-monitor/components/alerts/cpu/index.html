@@ -1,0 +1,10 @@
+<index:>
+  <div class="server-alert">
+    <input type="checkbox" checked="{{server.alerts.cpu.enabled}}">
+    Send alerts when CPU usage is over
+    <input type="number" value="{{server.alerts.cpu.value}}">
+    % for more than
+    <input type="number" class="input-big" value="{{server.alerts.cpu.period}}">
+    seconds
+    <!--<pre>{{JSON.stringify(server.alerts, null, 2)}}</pre>-->
+  </div>

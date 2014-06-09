@@ -17,6 +17,18 @@ module.exports = class SMonitor
 
     model.set 'diskData', []
 
+    model.on 'change', 'server.alerts.cpu.**', () =>
+      @socket.send 'cpu-alerts-changed', model.get 'server.alerts.cpu'
+    model.on 'change', 'server.alerts.ram.**', () =>
+      @socket.send 'ram-alerts-changed', model.get 'server.alerts.ram'
+    model.on 'change', 'server.alerts.disk.**', (path) =>
+      drive = path.split('.')[0]
+      disk = model.get "server.alerts.disk.#{drive}"
+      return unless disk
+      disk.name = drive
+#      console.log "CHANGE DISK ALERTS 2 >>>>>>> ", disk
+      @socket.send 'disk-alerts-changed', disk
+
     @socket.on 'update', (data) =>
       model.push 'cpuData', data.cpu
       model.push 'memoryData', data.memory

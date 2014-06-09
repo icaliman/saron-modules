@@ -1,0 +1,9 @@
+<index:>
+  {{each drives as #drive}}
+    <div class="server-alert">
+      <input type="checkbox" checked="{{server.alerts.disk[#drive].enabled}}">
+      Send alerts when Disk({{#drive}}) usage is over
+      <input type="number" value="{{server.alerts.disk[#drive].value}}">
+      %
+    </div>
+  {{/}}
