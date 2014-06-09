@@ -11,10 +11,14 @@ class SaronAlerts extends events.EventEmitter
     @maxVals[key] = @maxVals[key] || {}
     @maxVals[key][sid] = maxVal
 
+  disableOverflowTest: (key, id) ->
+    sid = if typeof id is 'string' then id else JSON.stringify(id)
+    delete @maxVals[key][sid] if @maxVals[key]?[sid]
+
   overflowTest: (key, id, val) ->
     sid = if typeof id is 'string' then id else JSON.stringify(id)
-#    return console.log("Overflow test \"#{key}\" was not started for id: #{id}!") unless @maxVals[key]?[sid]
-    return  unless @maxVals[key]?[sid]
+    return console.log("Overflow test \"#{key}\" was not started for id: #{sid}!") unless @maxVals[key]?[sid]
+#    return  unless @maxVals[key]?[sid]
     if val > @maxVals[key][sid]
       @emit 'overflow-' + key, id, val
 
@@ -24,10 +28,14 @@ class SaronAlerts extends events.EventEmitter
     @maxValsPeriod[key] = @maxValsPeriod[key] || {}
     @maxValsPeriod[key][sid] = {maxVal, period, startDate: Date.now()} # TODO: startDate trebuie setat la prima depasire ???
 
+  disablePeriodOverflowTest: (key, id) ->
+    sid = if typeof id is 'string' then id else JSON.stringify(id)
+    delete @maxValsPeriod[key][sid] if @maxValsPeriod[key]?[sid]
+
   periodOverflowTest: (key, id, val) ->
     sid = if typeof id is 'string' then id else JSON.stringify(id)
-#    return console.log("Overflow period test \"#{key}\" was not started!") unless @maxValsPeriod[key]?[sid]
-    return unless @maxValsPeriod[key]?[sid]
+    return console.log("Overflow period test \"#{key}\" was not started for id: #{sid}!") unless @maxValsPeriod[key]?[sid]
+#    return unless @maxValsPeriod[key]?[sid]
     if val > @maxValsPeriod[key][sid].maxVal
       start = @maxValsPeriod[key][sid].startDate
       now = Date.now()
