@@ -22,12 +22,11 @@ module.exports = class SMonitor
     model.on 'change', 'server.alerts.ram.**', () =>
       @socket.send 'ram-alerts-changed', model.get 'server.alerts.ram'
     model.on 'change', 'server.alerts.disk.**', (path) =>
-      drive = path.split('.')[0]
-      disk = model.get "server.alerts.disk.#{drive}"
+      diskName = path.split('.')[0]
+      disk = model.get "server.alerts.disk.#{diskName}"
       return unless disk
-      disk.name = drive
 #      console.log "CHANGE DISK ALERTS 2 >>>>>>> ", disk
-      @socket.send 'disk-alerts-changed', disk
+      @socket.send 'disk-alerts-changed', diskName, disk
 
     @socket.on 'update', (data) =>
       model.push 'cpuData', data.cpu

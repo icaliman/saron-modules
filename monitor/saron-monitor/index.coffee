@@ -1,13 +1,13 @@
 SaronAlerts = require 'saron-alerts'
+events = require 'events'
 
-
-class SaronMonitor
+class SaronMonitor extends events.EventEmitter
   init: (store, primus) ->
     console.log 'Saron: Init monitor'
 
     @store = store
     @saronAlerts = new SaronAlerts store
-    @initAlerts()
+#    @initAlerts()
 
     browsers = primus.channel 'monitor-browsers'
     daemons = primus.channel 'monitor-daemons'
@@ -37,19 +37,18 @@ class SaronMonitor
           @saronAlerts.startPeriodOverflowTest('ram', serverID, ram.value/100, ram.period)
         else
           @saronAlerts.disablePeriodOverflowTest('ram', serverID)
-      spark.on 'disk-alerts-changed', (disk) =>
+      spark.on 'disk-alerts-changed', (diskName, disk) =>
         if disk.enabled
-          @saronAlerts.startOverflowTest('disk', {id: serverID, dn: disk.name}, disk.value)
+          @saronAlerts.startOverflowTest('disk', {id: serverID, dn: diskName}, disk.value)
         else
-          @saronAlerts.disableOverflowTest('disk', {id: serverID, dn: disk.name})
+          @saronAlerts.disableOverflowTest('disk', {id: serverID, dn: diskName})
 
       spark.on 'end', () =>
         console.log ">>>>>>>>>>>>>>>> MONITOR: BROWSER SOCKET END CONNECTION >>>>>>>>>>>>>>>>>"
-  #      TODO: stop daemon monitor from sending data only if needed
-  #      if daemonsSockets[serverID]
-  #        daemon = daemonsSockets[serverID]
-  #        console.log ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> STOP >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
-  #        daemon.send 'stop'
+#        if daemonsSockets[serverID]
+#          daemon = daemonsSockets[serverID]
+#          console.log ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> STOP >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+#          daemon.send 'stop'
 
     daemons.on 'connection', (spark) =>
       console.log 'Monitor: New Daemon connection'
@@ -62,7 +61,9 @@ class SaronMonitor
 #        unless browsers.isRoomEmpty(serverID)
         spark.send 'start'
 
-        @initDaemonAlerts serverID, conf
+        @emit 'daemon-connected', serverID, conf
+
+#        @initDaemonAlerts serverID, conf
 
       spark.on 'end', () ->
         if daemonsSockets[serverID]?.id is spark.id
@@ -77,49 +78,50 @@ class SaronMonitor
           @saronAlerts.overflowTest 'disk', {id: serverID, dn: disk.name}, disk.used
 
         browsers.room(serverID).send 'update', data
+        @emit 'update', data
 
-  initDaemonAlerts: (serverID, conf) ->
-    console.log "INIT ALERTS FOR: ", serverID
-
-    model = @store.createModel({fetchOnly: true})
-    server = model.at "servers.#{serverID}"
-    server.fetch (err) =>
-      return console.log(err) if err
-      cpu = server.get 'alerts.cpu'
-      ram = server.get 'alerts.ram'
-      disk = server.get 'alerts.disk'
-
-      unless cpu
-        server.set 'alerts.cpu', {value: 95, period: 3600}
-      else if cpu.enabled
-        @saronAlerts.startPeriodOverflowTest('cpu', serverID, cpu.value/100, cpu.period)
-      else
-        @saronAlerts.disablePeriodOverflowTest('cpu', serverID)
-
-      unless ram
-        server.set 'alerts.ram', {value: 95, period: 3600}
-      else if ram.enabled
-        @saronAlerts.startPeriodOverflowTest('ram', serverID, ram.value/100, ram.period) # trebuie preluat din BD
-      else
-        @saronAlerts.disablePeriodOverflowTest('ram', serverID)
-
-      disks = if conf then conf.disks else Object.keys(disk || {})
-      for diskName in disks
-        unless disk?[diskName]
-          server.set "alerts.disk.#{diskName}", {value: 90}
-        else if disk[diskName].enabled
-          @saronAlerts.startOverflowTest('disk', {id: serverID, dn: diskName}, disk[diskName].value)
-        else
-          @saronAlerts.disableOverflowTest('disk', {id: serverID, dn: diskName})
-
-  initAlerts: ->
-    @saronAlerts.on 'period-overflow-cpu', (serverID, maxVal, val, period) =>
-      console.log ">>>>>>><<<<<<<<>>>>>>>>> OVERFLOW CPU <<<<<<<<<>>>>>>><<<<<<<"
-
-    @saronAlerts.on 'period-overflow-ram', (serverID, maxVal, val, period) =>
-      console.log ">>>>>>><<<<<<<<>>>>>>>>> OVERFLOW RAM <<<<<<<<<>>>>>>><<<<<<<"
-
-    @saronAlerts.on 'overflow-disk', (server, val) =>
-      console.log ">>>>>>><<<<<<<<>>>>>>>>> OVERFLOW DISK <<<<<<<<<>>>>>>><<<<<<<", server.dn
+#  initDaemonAlerts: (serverID, conf) ->
+#    console.log "INIT ALERTS FOR: ", serverID
+#
+#    model = @store.createModel({fetchOnly: true})
+#    server = model.at "servers.#{serverID}"
+#    server.fetch (err) =>
+#      return console.log(err) if err
+#      cpu = server.get 'alerts.cpu'
+#      ram = server.get 'alerts.ram'
+#      disk = server.get 'alerts.disk'
+#
+#      unless cpu
+#        server.set 'alerts.cpu', {value: 95, period: 3600}
+#      else if cpu.enabled
+#        @saronAlerts.startPeriodOverflowTest('cpu', serverID, cpu.value/100, cpu.period)
+#      else
+#        @saronAlerts.disablePeriodOverflowTest('cpu', serverID)
+#
+#      unless ram
+#        server.set 'alerts.ram', {value: 95, period: 3600}
+#      else if ram.enabled
+#        @saronAlerts.startPeriodOverflowTest('ram', serverID, ram.value/100, ram.period) # trebuie preluat din BD
+#      else
+#        @saronAlerts.disablePeriodOverflowTest('ram', serverID)
+#
+#      disks = if conf then conf.disks else Object.keys(disk || {})
+#      for diskName in disks
+#        unless disk?[diskName]
+#          server.set "alerts.disk.#{diskName}", {value: 90}
+#        else if disk[diskName].enabled
+#          @saronAlerts.startOverflowTest('disk', {id: serverID, dn: diskName}, disk[diskName].value)
+#        else
+#          @saronAlerts.disableOverflowTest('disk', {id: serverID, dn: diskName})
+#
+#  initAlerts: ->
+#    @saronAlerts.on 'period-overflow-cpu', (serverID, maxVal, val, period) =>
+#      console.log ">>>>>>><<<<<<<<>>>>>>>>> OVERFLOW CPU <<<<<<<<<>>>>>>><<<<<<<"
+#
+#    @saronAlerts.on 'period-overflow-ram', (serverID, maxVal, val, period) =>
+#      console.log ">>>>>>><<<<<<<<>>>>>>>>> OVERFLOW RAM <<<<<<<<<>>>>>>><<<<<<<"
+#
+#    @saronAlerts.on 'overflow-disk', (server, val) =>
+#      console.log ">>>>>>><<<<<<<<>>>>>>>>> OVERFLOW DISK <<<<<<<<<>>>>>>><<<<<<<", server.dn
 
 module.exports = new SaronMonitor()
