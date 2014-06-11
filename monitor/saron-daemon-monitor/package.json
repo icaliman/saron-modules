@@ -15,7 +15,10 @@
     "start": "coffee index.coffee"
   },
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "coffee-script": "~1.7.1",
+    "diskspace": "~0.1.6"
+  },
   "devDependencies": {},
   "optionalDependencies": {},
   "engines": {}
