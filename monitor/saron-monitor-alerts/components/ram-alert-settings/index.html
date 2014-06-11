@@ -1,0 +1,9 @@
+<index:>
+  <div class="server-alert">
+    <input type="checkbox" checked="{{server.alerts.ram.enabled}}">
+    Send alerts when RAM usage is over
+    <input type="number" value="{{server.alerts.ram.value}}">
+    % for more than
+    <input type="number" class="input-big" value="{{server.alerts.ram.period}}">
+    seconds
+  </div>

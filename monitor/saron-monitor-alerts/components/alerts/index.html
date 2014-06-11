@@ -1,0 +1,25 @@
+<index:>
+  <!--{{#root._page.selectedServer.alerts.alert.cpu}}-->
+  <!--<br>-->
+  <!--{{#root._page.selectedServer.alerts.alert.ram}}-->
+  <!--<pre>{{JSON.stringify(#root._page.selectedServer.alerts.alert, null, 2)}}</pre>-->
+  {{if #root._page.selectedServer.alerts.alert.cpu}}
+    <div class="alert alert-danger alert-dismissable">
+      <button on-click="hide('cpu')" type="button" class="close" aria-hidden="true">&times;</button>
+      <strong>Alert:</strong> CPU usage was over {{unbound #root._page.selectedServer.alerts.cpu.value}}% for more than {{unbound #root._page.selectedServer.alerts.cpu.period}}s.
+    </div>
+  {{/}}
+  {{if #root._page.selectedServer.alerts.alert.ram}}
+    <div class="alert alert-danger alert-dismissable">
+      <button on-click="hide('ram')" type="button" class="close" aria-hidden="true">&times;</button>
+      <strong>Alert:</strong> Memory usage was over {{unbound #root._page.selectedServer.alerts.ram.value}}% for more than {{unbound #root._page.selectedServer.alerts.ram.period}}s.
+    </div>
+  {{/}}
+  {{each Object.keys(#root._page.selectedServer.alerts.alert.disk) as #d}}
+    {{if #root._page.selectedServer.alerts.alert.disk[#d]}}
+      <div class="alert alert-danger alert-dismissable">
+        <button on-click="hide('disk', #d)" type="button" class="close" aria-hidden="true">&times;</button>
+        <strong>Alert:</strong> Disk({{#d}}) usage is over {{unbound #root._page.selectedServer.alerts.disk[#d].value}}%.
+      </div>
+    {{/}}
+  {{/}}
