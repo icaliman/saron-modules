@@ -12,9 +12,7 @@ exports.init = (conf, primus) ->
 
   socket.send 'auth',
     nodeId: conf.nodeId
-
-  socket.on 'update', (data) ->
-    sendData monitor.usage()
+    disks: conf.monitoredDrives
 
   socket.on 'start', () ->
     return if started

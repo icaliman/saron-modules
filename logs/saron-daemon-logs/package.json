@@ -2,7 +2,11 @@
   "name": "saron-daemon-logs",
   "description": "Log monitor module for Smart Daemon",
   "version": "0.0.1",
-  "homepage": "http://saron-monitor.com/",
+  "homepage": "https://github.com/icaliman/saron-modules",
+  "main": "index.coffee",
+  "author": {
+    "name": "John Caliman"
+  },
   "repository": {
     "type": "git",
     "url": "git@github.com:icaliman/saron-modules.git"
@@ -10,12 +14,9 @@
   "scripts": {
     "start": "coffee index.coffee"
   },
-  "dependencies": {
-    "coffee-script": "~1.7.1"
-  },
-  "optionalDependencies": {},
+  "license": "MIT",
+  "dependencies": {},
   "devDependencies": {},
-  "engines": {
-    "node": "0.10.x"
-  }
+  "optionalDependencies": {},
+  "engines": {}
 }
