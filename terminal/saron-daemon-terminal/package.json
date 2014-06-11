@@ -1,22 +1,24 @@
 {
-  "name": "saron-daemon-console",
-  "description": "Smart Web Monitor Client",
+  "name": "saron-daemon-terminal",
+  "description": "Terminal replication module for Smart Daemon",
   "version": "0.0.1",
-  "homepage": "http://smartwebmonitor.com/",
+  "homepage": "https://github.com/icaliman/saron-modules",
+  "main": "index.coffee",
+  "author": {
+    "name": "John Caliman"
+  },
   "repository": {
     "type": "git",
-    "url": "git://github.com/icaliman/saron-daemon-console.git"
+    "url": "git@github.com:icaliman/saron-modules.git"
   },
   "scripts": {
-    "start": "node index.js"
+    "start": "coffee index.coffee"
   },
+  "license": "MIT",
   "dependencies": {
-    "coffee-script": "~1.7.1",
     "peters-pty.js": "~0.2.3"
   },
-  "optionalDependencies": {},
   "devDependencies": {},
-  "engines": {
-    "node": "0.10.x"
-  }
+  "optionalDependencies": {},
+  "engines": {}
 }
