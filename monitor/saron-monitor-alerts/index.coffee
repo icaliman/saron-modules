@@ -1,5 +1,5 @@
 events = require 'events'
-AlertTests = require './AlertTests'
+AlertTests = require './alert-tests'
 
 class SaronAlerts extends events.EventEmitter
   init: (store, primus) ->
@@ -71,18 +71,21 @@ class SaronAlerts extends events.EventEmitter
       @getServer serverID, (server) =>
         unless server.get 'alerts.alert.cpu'
           server.set 'alerts.alert.cpu', true
+          @emit 'cpu-usage-alert', server.get()
 
     @alertTests.on 'period-overflow-ram', (serverID, maxVal, val, period) =>
 #      console.log ">>>>>>><<<<<<<<>>>>>>>>> OVERFLOW RAM <<<<<<<<<>>>>>>><<<<<<<"
       @getServer serverID, (server) =>
         unless server.get 'alerts.alert.ram'
           server.set 'alerts.alert.ram', true
+          @emit 'ram-usage-alert', server.get()
 
     @alertTests.on 'overflow-disk', (s, val) =>
 #      console.log ">>>>>>><<<<<<<<>>>>>>>>> OVERFLOW DISK <<<<<<<<<>>>>>>><<<<<<<", s.dn
       @getServer s.id, (server) =>
         unless server.get "alerts.alert.disk.#{s.dn}"
           server.set "alerts.alert.disk.#{s.dn}", true
+          @emit 'disk-usage-alert', server.get(), s.dn
 
   getServer: (serverID, cb) ->
     model = @store.createModel()
@@ -90,6 +93,6 @@ class SaronAlerts extends events.EventEmitter
     server.subscribe (err) =>
       return console.log(err) if err
       cb server
-      model.destroy()
+#      model.destroy()
 
 module.exports = new SaronAlerts()

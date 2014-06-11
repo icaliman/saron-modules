@@ -14,7 +14,8 @@ module.exports = class CpuAlert
 
 #    TODO: remove this :)
     setInterval (=>
-      model.root.set '_page.selectedServer.alerts.up', true
+      if model.root.get '_page.selectedServer'
+        model.root.set '_page.selectedServer.alerts.up', true
     ), 1000
 
   hide: (name) ->

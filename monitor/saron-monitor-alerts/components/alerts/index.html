@@ -12,10 +12,10 @@
   {{if #root._page.selectedServer.alerts.alert.ram}}
     <div class="alert alert-danger alert-dismissable">
       <button on-click="hide('ram')" type="button" class="close" aria-hidden="true">&times;</button>
-      <strong>Alert:</strong> Memory usage was over {{unbound #root._page.selectedServer.alerts.ram.value}}% for more than {{unbound #root._page.selectedServer.alerts.ram.period}}s.
+      <strong>Alert:</strong> RAM usage was over {{unbound #root._page.selectedServer.alerts.ram.value}}% for more than {{unbound #root._page.selectedServer.alerts.ram.period}}s.
     </div>
   {{/}}
-  {{each Object.keys(#root._page.selectedServer.alerts.alert.disk) as #d}}
+  {{each Object.keys(#root._page.selectedServer.alerts.alert.disk || {}) as #d}}
     {{if #root._page.selectedServer.alerts.alert.disk[#d]}}
       <div class="alert alert-danger alert-dismissable">
         <button on-click="hide('disk', #d)" type="button" class="close" aria-hidden="true">&times;</button>
