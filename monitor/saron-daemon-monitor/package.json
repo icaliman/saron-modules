@@ -1,22 +1,22 @@
 {
   "name": "saron-daemon-monitor",
-  "description": "Smart Web Monitor Client",
+  "description": "CPU, RAM and DISK monitoring module for Smart Daemon",
   "version": "0.0.1",
-  "homepage": "http://smartwebmonitor.com/",
+  "homepage": "https://github.com/icaliman/saron-modules",
+  "main": "index.coffee",
+  "author": {
+    "name": "John Caliman"
+  },
   "repository": {
     "type": "git",
-    "url": "git://github.com/icaliman/saron-daemon-console.git"
+    "url": "git@github.com:icaliman/saron-modules.git"
   },
   "scripts": {
-    "start": "node index.js"
+    "start": "coffee index.coffee"
   },
-  "dependencies": {
-    "coffee-script": "~1.7.1",
-    "diskspace": "~0.1.6"
-  },
-  "optionalDependencies": {},
+  "license": "MIT",
+  "dependencies": {},
   "devDependencies": {},
-  "engines": {
-    "node": "0.10.x"
-  }
+  "optionalDependencies": {},
+  "engines": {}
 }
