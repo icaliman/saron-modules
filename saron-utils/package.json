@@ -1,24 +1,22 @@
 {
   "name": "saron-utils",
-  "description": "Saron Logs plugin",
+  "description": "Utils module for Smart App",
   "version": "0.0.1",
-  "main": "index.js",
-  "keywords": [
-    "derby",
-    "component",
-    "console"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/icaliman/saron-console.git"
-  },
-  "bugs": {
-    "url": "https://github.com/icaliman/saron-console/issues"
-  },
+  "homepage": "https://github.com/icaliman/saron-modules",
+  "main": "index.coffee",
   "author": {
     "name": "John Caliman"
   },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:icaliman/saron-modules.git"
+  },
+  "scripts": {
+    "start": "coffee index.coffee"
+  },
   "license": "MIT",
   "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": {},
+  "optionalDependencies": {},
+  "engines": {}
 }
