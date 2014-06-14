@@ -15,10 +15,11 @@
     "start": "coffee index.coffee"
   },
   "license": "MIT",
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {},
+  "optionalDependencies": {
+    "pty.js": "*",
     "peters-pty.js": "~0.2.3"
   },
-  "devDependencies": {},
-  "optionalDependencies": {},
   "engines": {}
 }

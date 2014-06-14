@@ -1,4 +1,5 @@
-pty = require('peters-pty.js')
+pty_os_module = if process.platform is 'win32' then 'peters-pty.js' else 'pty.js'
+pty = require pty_os_module
 
 shell = null
 term = null
