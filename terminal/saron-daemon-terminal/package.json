@@ -1,7 +1,7 @@
 {
   "name": "saron-daemon-terminal",
   "description": "Terminal replication module for Smart Daemon",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "homepage": "https://github.com/icaliman/saron-modules",
   "main": "index.coffee",
   "author": {
@@ -15,11 +15,10 @@
     "start": "coffee index.coffee"
   },
   "license": "MIT",
-  "dependencies": {},
-  "devDependencies": {},
-  "optionalDependencies": {
-    "pty.js": "*",
+  "dependencies": {
     "peters-pty.js": "~0.2.3"
   },
+  "devDependencies": {},
+  "optionalDependencies": {},
   "engines": {}
 }
