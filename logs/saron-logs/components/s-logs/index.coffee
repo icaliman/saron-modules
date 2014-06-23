@@ -17,6 +17,7 @@ class SLogs
   init: (model) ->
     @server = model.at 'server'
     model.setNull "logs", []
+    @filterChange()
 
 #  This is called only in the browser
   create: (model, dom) ->
@@ -32,13 +33,18 @@ class SLogs
 
     @socket.send 'auth', @server.get('id')
 
-    model.on 'change', 'filter', (filter) =>
-      filter = filter.replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1")
-      @filter = if filter then new RegExp "(#{filter})", 'ig' else null
-      logs = model.get "logs"
-      for log, i in logs
-        model.set "logs.#{i}.visible", @filterLog log.message
-        model.set "logs.#{i}.show_message", @renderLog log.message
+    model.on 'change', 'server.logs.filter', (filter) =>
+      @filterChange()
+
+  filterChange: ->
+    filter = @model.get 'server.logs.filter'
+    return unless typeof filter is 'string'
+    filter = filter.replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1")
+    @filter = if filter then new RegExp "(#{filter})", 'ig' else null
+    logs = @model.get "logs"
+    for log, i in logs
+      @model.set "logs.#{i}.visible", @filterLog log.message
+      @model.set "logs.#{i}.show_message", @renderLog log.message
 
 
   renderLog: (log) ->

@@ -2,7 +2,7 @@
   <div class="logs-target" hidden={{@hidden}}>
     <div class="log-filter">
       <label for="log-filter">filter</label>
-      <input id="log-filter" value="{{filter}}"/>
+      <input id="log-filter" value="{{server.logs.filter}}"/>
     </div>
     <div class="log-list">
       {{each logs as #log}}
