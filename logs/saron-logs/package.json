@@ -1,7 +1,7 @@
 {
   "name": "saron-logs",
   "description": "Log monitor module for Smart App",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "homepage": "https://github.com/icaliman/saron-modules",
   "main": "index.coffee",
   "author": {
