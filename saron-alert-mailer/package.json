@@ -1,7 +1,7 @@
 {
   "name": "saron-alert-mailer",
   "description": "Email-alert sender module for Smart App",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "homepage": "https://github.com/icaliman/saron-modules",
   "main": "index.coffee",
   "author": {

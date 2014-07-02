@@ -30,7 +30,7 @@ class MailSender
 
       unless mailerOptions?.service
         prompt.start()
-        prompt.get (
+        prompt.get
           service:
             message: 'Enter email service'
             required: true
@@ -41,14 +41,14 @@ class MailSender
             message: 'Enter email password'
             required: true
             hidden: true
-        ), (err, result) ->
+        , (err, result) ->
           console.log "You writed: ", result
           mailerOptions =
             service: result.service
             auth:
               user: result.email
               pass: result.password
-
+          cb mailerOptions
     cb mailerOptions
 
 module.exports = new MailSender()
