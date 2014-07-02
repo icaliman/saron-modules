@@ -31,16 +31,17 @@ class MailSender
       unless mailerOptions?.service
         prompt.start()
         prompt.get
-          service:
-            message: 'Enter email service'
-            required: true
-          email:
-            message: 'Enter email address'
-            required: true
-          password:
-            message: 'Enter email password'
-            required: true
-            hidden: true
+          properties:
+            service:
+              message: 'Enter email service'
+              required: true
+            email:
+              message: 'Enter email address'
+              required: true
+            password:
+              message: 'Enter email password'
+              required: true
+              hidden: true
         , (err, result) ->
           console.log "You writed: ", result
           mailerOptions =
