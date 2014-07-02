@@ -51,7 +51,7 @@ class MailSender
                 user: result.email
                 pass: result.password
             cb mailerOptions
-        ), 0
+        ), 200
     cb mailerOptions
 
 module.exports = new MailSender()
