@@ -3,7 +3,7 @@ prompt = require 'prompt'
 
 class MailSender
   constructor: ->
-    @getMailerOptions (mailerOptions) ->
+    @getMailerOptions (mailerOptions) =>
 
       @smtpTransport = nodemailer.createTransport 'SMTP', mailerOptions
 
