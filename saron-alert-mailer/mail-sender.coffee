@@ -29,6 +29,7 @@ class MailSender
         console.log "MailerOptions file doesn't exists."
 
       unless mailerOptions?.service
+        prompt.start()
         prompt.get (
           service:
             message: 'Enter email service'
