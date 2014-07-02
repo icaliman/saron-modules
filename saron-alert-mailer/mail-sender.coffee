@@ -27,6 +27,8 @@ class MailSender
         mailerOptions = require './../../config/nodemailer'
       catch
         console.log "MailerOptions file doesn't exists."
+
+      unless mailerOptions?.service
         prompt.get (
           service:
             message: 'Enter email service'
