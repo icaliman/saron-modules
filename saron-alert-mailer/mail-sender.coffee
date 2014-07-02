@@ -29,27 +29,29 @@ class MailSender
         console.log "MailerOptions file doesn't exists."
 
       unless mailerOptions?.service
-        prompt.start()
-        prompt.get
-          properties:
-            service:
-              message: 'Enter email service'
-              required: true
-            email:
-              message: 'Enter email address'
-              required: true
-            password:
-              message: 'Enter email password'
-              required: true
-              hidden: true
-        , (err, result) ->
-          console.log "You writed: ", result
-          mailerOptions =
-            service: result.service
-            auth:
-              user: result.email
-              pass: result.password
-          cb mailerOptions
+        setTimeout ( ->
+          prompt.start()
+          prompt.get
+            properties:
+              service:
+                message: 'Enter email service'
+                required: true
+              email:
+                message: 'Enter email address'
+                required: true
+              password:
+                message: 'Enter email password'
+                required: true
+                hidden: true
+          , (err, result) ->
+            console.log "You writed: ", result
+            mailerOptions =
+              service: result.service
+              auth:
+                user: result.email
+                pass: result.password
+            cb mailerOptions
+        ), 0
     cb mailerOptions
 
 module.exports = new MailSender()
