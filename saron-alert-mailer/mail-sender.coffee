@@ -42,6 +42,7 @@ class MailSender
             required: true
             hidden: true
         ), (err, result) ->
+          console.log "You writed: ", result
           mailerOptions =
             service: result.service
             auth:
