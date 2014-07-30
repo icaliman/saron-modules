@@ -1,7 +1,7 @@
 {
   "name": "saron-daemon-monitor",
   "description": "CPU, RAM and DISK monitoring module for Smart Daemon",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "homepage": "https://github.com/icaliman/saron-modules",
   "main": "index.coffee",
   "author": {
