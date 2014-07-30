@@ -29,7 +29,7 @@ function DiskUsage(cb) {
 
   this.usage = function(drive) {
     var _this = this;
-    diskspace.check(drive, function(total, free, status) {
+    diskspace.check(drive, function(err, total, free, status) {
       if (status.indexOf('READY') == 0) {
         usage.push(_this.parse(drive, total, free));
       }
